@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -18,11 +21,50 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
+    private float[] RATES = {92.5f, 99.8f, 12.75f, 0.21f, 117.3f, 1f};
+    private String[] CODES = {"USD", "EUR", "CNY", "KZT", "GBP", "RUB"};
+
+    private Spinner spinner;
+    private TextView icon;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
+        spinner = findViewById(R.id.spinnerCurrency);
+        icon = findViewById(R.id.textLinearLayout);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.currencies, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (spinner.getSelectedItem().toString().equals("USD — Доллар")){
+                    icon.setText("$");
+                } else if (spinner.getSelectedItem().toString().equals("EUR — Евро")) {
+                    icon.setText("€");
+                } else if (spinner.getSelectedItem().toString().equals("CNY — Юань")) {
+                    icon.setText("¥");
+                } else if (spinner.getSelectedItem().toString().equals("KZT — Тенге")) {
+                    icon.setText("₸");
+                } else if (spinner.getSelectedItem().toString().equals("GBP — Фунт")) {
+                    icon.setText("£");
+                } else if (spinner.getSelectedItem().toString().equals("RUB — Рубли")) {
+                    icon.setText("₽");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -49,32 +91,27 @@ public class MainActivity extends AppCompatActivity {
 
     public void Consider(View view){
         //  Получение id елементов в activity_main
-        EditText course = findViewById(R.id.etRate);
         EditText count = findViewById(R.id.etSum);
-        Switch dollar = findViewById(R.id.spinnerCurrency);
         TextView tv = findViewById(R.id.courseText);
+        Spinner spinner = findViewById(R.id.spinnerCurrency);
 
-        //  Если поле курса пустое, то вывести сообщение об ошибке
-        if (course.getText().length() > 0) {
-            //  Если поле суммы пустое, то вывести сообщение об ошибке
-            if (count.getText().length() > 0) {
-                // Получаем данные из полей ввода
-                float f_course = Float.parseFloat(String.valueOf(course.getText()));
-                float f_count = Float.parseFloat(String.valueOf(count.getText()));
+        if (count.getText().toString().isEmpty()) {
+            AlterDialogs("Уведомление", "Введите сумму");
+            return;
+        }
 
-                // Конвертация в рубли или доллары
-                float composition = 0;
-                if (dollar.isChecked() == true){
-                    // Конвертация: валюта - рубли
-                    composition = f_course * f_count;
-                    tv.setText(composition + " р.");
-                } else {
-                    // Конвертация: рубли - валюта
-                    composition = f_count / f_course;
-                    tv.setText(composition + " $.");
-                }
-            } else AlterDialogs("Уведомление", "Введите кол-во доллара.");
-        } else AlterDialogs("Уведомление", "Введите курс доллара.");
+        float sum = Float.parseFloat(count.getText().toString());
+        int selectedRate = spinner.getSelectedItemPosition();
+
+        // Берём фиксированный курс по позиции Spinner
+        float rate = RATES[selectedRate];
+        String code = CODES[selectedRate];
+
+        // Конвертация: рубли / курс = валюта
+        float converted = sum / rate;
+
+        // Вывод результата
+        tv.setText(String.format("%.2f %s", converted, code));
     }
 
     public void URL(View view){

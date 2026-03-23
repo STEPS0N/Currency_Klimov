@@ -32,38 +32,13 @@
 
     </LinearLayout>
 
-    <!-- Подпись к полю ввода курса -->
-    <TextView
-        android:id="@+id/rateText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="270dp"
-        android:layout_marginRight="40dp"
-        android:text="Курсы валют:"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- Поле ввода для курса -->
-    <EditText
-        android:id="@+id/etRate"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rateText" />
-
     <!-- Подпись к полю ввода суммы -->
     <TextView
         android:id="@+id/sumText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="350dp"
+        android:layout_marginTop="300dp"
         android:layout_marginRight="40dp"
         android:text="Сумма:"
         app:layout_constraintEnd_toEndOf="parent"
@@ -83,12 +58,13 @@
         app:layout_constraintTop_toBottomOf="@+id/sumText" />
 
     <!-- Выпадающий список для выбора валюты -->
-    <Switch
+    <Spinner
         android:id="@+id/spinnerCurrency"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="415dp"
+        android:layout_marginTop="400dp"
+        android:entries="@array/currencies"
         android:layout_marginRight="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

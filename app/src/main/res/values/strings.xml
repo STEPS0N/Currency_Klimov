@@ -6,5 +6,6 @@
         <item>CNY — Юань</item>
         <item>KZT — Тенге</item>
         <item>GBP — Фунт</item>
+        <item>RUB — Рубли</item>
     </string-array>
 </resources>
