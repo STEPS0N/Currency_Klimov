@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Currency_Klimov</string>
+    <string-array name="currencies">
+        <item>USD — Доллар</item>
+        <item>EUR — Евро</item>
+        <item>CNY — Юань</item>
+        <item>KZT — Тенге</item>
+        <item>GBP — Фунт</item>
+    </string-array>
 </resources>

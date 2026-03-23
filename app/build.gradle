@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace 'com.example.currency_klimov'
-    compileSdk 34
+    compileSdk 36
 
     defaultConfig {
         applicationId "com.example.currency_klimov"
